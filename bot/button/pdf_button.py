@@ -10,7 +10,6 @@ def pdf_button():
     ])
     return ikb.as_markup()
 
-
 def admin_button():
     rkb = ReplyKeyboardBuilder()
     rkb.add(

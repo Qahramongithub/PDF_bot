@@ -1,0 +1,39 @@
+
+services:
+  bot:
+    build: .
+    restart: always
+    ports:
+      - "8001:8000"
+
+
+
+
+
+    #    environment:
+#      TOKEN: 7149796467:AAF-Dcj2_vEr5E_UGhVG3UBViU-AnonEC5Q
+#      DB_USER: postgres
+#      DB_NAME: postgres
+#      DB_HOST: pg
+#      DB_PORT: 5432
+#      DB_PASSWORD: 1
+#      PAYMENT_CLICK_TOKEN: 398062629:TEST:999999999_F91D8F69C042267444B74CC0B3C747757EB0E065
+
+    depends_on:
+      - pdf
+
+
+  pdf:
+    image: postgres:alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 2505
+      TZ: Asia/Tashkent
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data/
+
+
+volumes:
+  pg_data:

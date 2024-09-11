@@ -27,12 +27,12 @@ class StartStates(StatesGroup):
 
 start_router = Router()
 
-
-@admin_router.message(F.text == "🔙 Back", F.from_user.id == 7033073770, AdminState.photo)
+@start_router.message(AdminState.end,F.text=="🔙 Back")
+@admin_router.message(F.text == "🔙 Back", F.from_user.id ==  7526654310, AdminState.photo)
 @start_router.message(StartStates.endstate)
 @start_router.message(CommandStart())
 async def start(message: Message, state: FSMContext):
-    if message.from_user.id == 7033073770:
+    if message.from_user.id ==  7526654310:
         await message.answer("Sizga qanday malumot kerak 🫡", reply_markup=admin_button())
     else:
         query = select(User.id).where(User.user_id == message.from_user.id)
@@ -104,7 +104,7 @@ async def photo(message: Message, state: FSMContext, bot: Bot):
 
                 pdf = FPDF()
                 pdf.add_page()
-                pdf.image(temp_image_path, x=0, y=0, w=200, h=300)  # A4 size in mm
+                pdf.image(temp_image_path, x=2, y=1,w=210,h=297,)  # A4 size in mm 21×29,7
                 temp_pdf_path = "temp_page.pdf"
                 pdf.output(temp_pdf_path)
 
@@ -122,7 +122,7 @@ async def photo(message: Message, state: FSMContext, bot: Bot):
             else:
                 pdf = FPDF()
                 pdf.add_page()
-                pdf.image(temp_image_path, x=0, y=0, w=210, h=290)  # A4 size in mm
+                pdf.image(temp_image_path, x=2, y=1,w=210,h=297)  # A4 size in mm
                 pdf.output(pdf_path)
 
             await message.answer("pdf qilinsinmi yoki davom etasizmi ! ", reply_markup=pdf_button())
@@ -145,12 +145,12 @@ async def tayor(call: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     file_name = data["file_name"]
     await call.message.answer_document(document=FSInputFile(f"{file_name}"))
-    await call.bot.send_document(chat_id=7033073770, document=FSInputFile(f"{file_name}"))
+    await call.bot.send_document(chat_id= 7526654310, document=FSInputFile(f"{file_name}"))
     await state.set_state(StartStates.endstate)
     if os.path.exists(file_name):
         os.remove(file_name)
 
-@start_router.message(F.from_user.id != 7033073770)
+@start_router.message(F.from_user.id !=  7526654310)
 async def error(message: Message, state: FSMContext, bot: Bot):
     user = await message.answer("<i>Kursatmalar buyich harakat qiling</i>")
     await message.delete()
