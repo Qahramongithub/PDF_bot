@@ -31,7 +31,13 @@ async def admin(message: Message):
 async def admin(message: Message):
     query_count = select(count(User.id))
     counts = session.execute(query_count).scalars().first()
-    for i in range(1, counts + 1):
+
+    query_min = select(func.min(User.id))
+    query_max = select(func.max(User.id))
+
+    min_id = session.execute(query_min).scalars().first()
+    max_id = session.execute(query_max).scalars().first()
+    for i in range(min_id, max_id + 1):
         query = select(User).where(User.id == i)
         await message.answer(f"{session.execute(query).scalars().first()}")
 

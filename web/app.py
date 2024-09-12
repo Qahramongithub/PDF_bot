@@ -2,7 +2,6 @@ import uvicorn
 from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
-import itsdangerous
 from starlette_admin.contrib.sqla import Admin, ModelView
 
 from db.moduls import engine, User
